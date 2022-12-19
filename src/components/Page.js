@@ -1,42 +1,30 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {useParams} from 'react-router-dom';
-import {useContract, useProvider} from 'wagmi';
-import HomePage from "../ABIs/HomePage.json";
+import NotFound from './NotFound';
+import usePageURI from '../hooks/usePageURI';
+import {Iframe,IframeContainer} from "../styles"
 
-function Page(props) {
-    const [pageURI, setpageURI] = useState(undefined)
-    const provider = useProvider()
-    const homePage = useContract({
-        address: props.homePage,
-        abi: HomePage,
-        signerOrProvider: provider
-
-      })
-
+function Page() {
     const {id} = useParams();
+    console.log(id)
 
-  useEffect(()=> {
-      const getPage = async() => {
-          let page = await homePage.pageURI(id)
-          setpageURI(page)
-      }
+  
+    const {pageURI, isLoading, error} = usePageURI(id)
 
-      getPage()
-
-  },[id])
-  if(pageURI) {
-    return (
-     
-     <iframe  width={window.innerWidth} height={window.innerHeight} src={pageURI}> </iframe>
-        
+  if(pageURI) 
+    return ( 
+      isLoading 
+      ? <div>loading...</div>     
+      : 
+          <Iframe  width={window.innerWidth} height={window.innerHeight} scrolling="no" src={pageURI}></Iframe>
+         
     )
-}
-else {
+
+if(error && !isLoading) 
   return (
-    
-  <div>{id}</div>
-)  
-}
+    <NotFound id={id}></NotFound>
+  )  
+
 
 }
 

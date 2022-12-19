@@ -17,7 +17,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 
-const _homePage =  "0x2538a10b7fFb1B78c890c870FC152b10be121f04"
+const _homePage =  "0x22753E4264FDDc6181dc7cce468904A80a363E44"
 const _contentStore = "0x707531c9999AaeF9232C8FEfBA31FBa4cB78d84a"
 
 
@@ -45,20 +45,13 @@ const wagmiClient = createClient({
 function App() {
   
   return (
-    <div className="App">
+    // <div className="App">
       <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <BrowserRouter>
-        <Routes>
-        <Route path="/" element={<Main />} />
-          <Route path="/:id" element={<Page homePage={_homePage}></Page>} />
-        </Routes>
-        </BrowserRouter>
+        <Main/>
       </RainbowKitProvider>
     </WagmiConfig>
-      
-      
-    </div>
+    // </div>
   );
 }
 
